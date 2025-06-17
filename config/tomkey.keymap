@@ -4,6 +4,22 @@
 #include <dt-bindings/zmk/pointing.h>
 
 / {
+    behaviors {
+        cpi_inc: cpi_increase {
+            compatible = "zmk,behavior-macro";
+            label = "CPI_INC";
+            #binding-cells = <0>;
+            bindings = <&macro_press &kp LCTRL>, <&macro_tap &kp EQUAL>, <&macro_release &kp LCTRL>;
+        };
+        
+        cpi_dec: cpi_decrease {
+            compatible = "zmk,behavior-macro";
+            label = "CPI_DEC";
+            #binding-cells = <0>;
+            bindings = <&macro_press &kp LCTRL>, <&macro_tap &kp MINUS>, <&macro_release &kp LCTRL>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -64,7 +80,7 @@
         layer_6 {
             bindings = <
 &kp LG(Q)      &kp LC(W)  &trans     &trans     &trans                      &bt BT_PRV     &bt BT_NXT       &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&kp LG(LS(Z))  &trans     &kp LC(C)  &trans     &trans  &trans      &trans  &trans         &trans           &trans        &trans        &trans
+&kp LG(LS(Z))  &trans     &kp LC(C)  &trans     &trans  &trans      &trans  &cpi_dec       &cpi_inc         &trans        &trans        &trans
 &kp LG(Z)      &kp LG(X)  &kp LG(C)  &kp LG(V)  &trans  &trans      &trans  &trans         &trans           &trans        &trans        &trans
 &trans         &trans     &trans     &trans     &trans  &trans      &trans  &trans                                                      &trans
             >;

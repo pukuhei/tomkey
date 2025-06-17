@@ -30,10 +30,24 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        cpi = <600>;
     };
 };
 
 / {
+    input_processors {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        trackball_scale: trackball_scale@0 {
+            compatible = "zmk,input-processor-scale";
+            reg = <0>;
+            #input-processor-cells = <0>;
+            scale-multiplier = <3>;  // 600 CPI相当 (200 * 3)
+            scale-divisor = <1>;
+        };
+    };
+
     split_inputs {
         #address-cells = <1>;
         #size-cells = <0>;
@@ -46,15 +60,16 @@
 
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
-        status = "disabled";
+        status = "okay";
         device = <&trackball>;
+        input-processors = <&trackball_scale>;
     };
 };
 
 &trackball {
     status = "okay";
 	  irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-    cpi = <400>;
+    cpi = <200>;
     evt-type = <INPUT_EV_REL>;
     x-input-code = <INPUT_REL_X>;
     y-input-code = <INPUT_REL_Y>;
